@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial & Asset Ledger | SECURE NETWORK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Gaya khusus elemen ekonomi & integrasi aset (3 Kategori) */
+        .market-controls {
+            background: #0d110a;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            position: relative;
+        }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 5px 10px;
+            font-size: 1.1em;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: rgba(15, 20, 13, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .item-card:hover {
+            border-color: var(--tactical-light);
+            box-shadow: 0 0 12px rgba(154, 205, 50, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .category-tag {
+            font-size: 0.75em;
+            background: #222b1a;
+            color: var(--tactical-light);
+            padding: 2px 8px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            border-left: 2px solid var(--tactical-green);
+            text-transform: uppercase;
+        }
+
+        .item-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.9em;
+            color: #fff;
+            margin: 0 0 15px 0;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: auto;
+        }
+
+        .item-quantity {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.8em;
+            color: #fff;
+            background: rgba(107, 142, 35, 0.1);
+            padding: 2px 15px;
+            border: 1px solid var(--tactical-green);
+            border-radius: 2px;
+        }
+        
+        .qty-label {
+            font-size: 0.5em;
+            color: var(--tactical-light);
+            letter-spacing: 1px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: var(--panel-dark);
+            border: 1px dashed var(--border-color);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+    <div class="system-status">
+        <span class="pulse"></span> FINANCIAL & ASSET CORE // UPLINK: ENCRYPTED
+    </div>
+    <h1 class="glitch">ECONOMIC & ASSET REGISTRY</h1>
+    <div class="subtitle">>>> RESOURCE ALLOCATION & ACTIVE INVENTORY MATRIX_</div>
+</header>
+
+<nav>
+    <a href="index.html">[ BERANDA ]</a>
+    <a href="divisi.html">[ DIVISI_OPERASI ]</a>
+    <a href="ekonomi.html">[ SITUASI_EKONOMI ]</a>
+    <a href="market.html">[ ARSENAL_MARKET ]</a>
+    <a href="mission.html">[ MISSION_BOARD ]</a>
+    <a href="#" onclick="logoutProtocol()" style="color: #ff4444;">[ DISCONNECT ]</a>
+</nav>
+
+<script>
+    function logoutProtocol() {
+        localStorage.removeItem("brc_clearance");
+        localStorage.removeItem("brc_operator");
+        window.location.href = "login.html";
+    }
+</script>
+
+<div class="container">
+    <div class="section-title">> RETRIEVING FINANCIAL MATRIX... SUCCESS</div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h5>TOTAL GROSS REVENUE</h5>
+            <h3>$0</h3>
+            <p>PENDAPATAN KONTRAK AKTIF</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%;"></div></div>
+        </div>
+        <div class="stat-card">
+            <h5>OPERATIONAL COST (OPEX)</h5>
+            <h3>$0</h3>
+            <p>BIAYA OPERASIONAL BERJALAN</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%; background-color: var(--accent-red);"></div></div>
+        </div>
+        <div class="stat-card">
+            <h5>NET LIQUID ASSETS</h5>
+            <h3>$0</h3>
+            <p>KAS DAN CADANGAN LIKUID</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 0%;"></div></div>
+        </div>
+    </div>
+
+    <div class="command-panel" style="margin-top: 40px;">
+        <div class="command-header">/// 01. BUDGET ALLOCATION</div>
+        <p class="panel-desc">Distribusi dana untuk pemeliharaan kapabilitas All-Rounder PMC.</p>
+        <div class="command-body">
+            <div class="operational-grid">
+                <div class="tactical-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>OPERATOR SALARY (65%)</h5>
+                    <p class="unit-desc">Alokasi: $0</p>
+                    <hr class="card-line">
+                    <ul>
+                        <li>• Salary Of The Operators</li>
+                    </ul>
+                </div>
+
+                <div class="tactical-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>LOGISTICS & ARMORY (35%)</h5>
+                    <p class="unit-desc">Alokasi: $0</p>
+                    <hr class="card-line">
+                    <ul>
+                        <li>• Amunisi & Maintenans Senjata</li>
+                        <li>• Suku Cadang Kendaraan Lapis Baja</li>
+                        <li>• Restok Perlengkapan Taktis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="command-panel" style="margin-top: 40px;">
+        <div class="command-header">/// 02. LIVE ASSET QUANTITY MONITOR</div>
+        <p class="panel-desc">Sinkronisasi data inventaris langsung dari database logistik komando.</p>
+        
+        <div class="command-body">
+            <div class="market-controls">
+                <div class="hud-corners top-left"></div>
+                <div class="hud-corners bottom-right"></div>
+                <input type="text" id="searchInput" class="search-input" placeholder="Pindai nama aset atau kategori...">
+            </div>
+
+            <div id="assetGrid" class="market-grid">
+                <div class="no-results">> INITIATING SATELLITE UPLINK... PLEASE WAIT.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ==========================================================================
+    // CONFIGURATION UPLINK - 3 COLUMN SPREADSHEET INTEGRATION
+    // ==========================================================================
+    
+    // 1. GANTI teks di bawah ini dengan ID Spreadsheet Anda yang diambil dari URL
+    const SPREADSHEET_ID = '1PqFoR0FD1Yhn_wnRpv1eyYm80jzSMPxkP5zXy_GTmtE';
+    
+    // 2. Sesuaikan dengan nama tab di Google Sheets Anda (Contoh: Sheet1, atau Data_Arsenal)
+    const SHEET_NAME = 'AvailableItem'; 
+    
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+    let currentAssets = []; 
+
+    function fetchLiveAssets() {
+        const grid = document.getElementById("assetGrid");
+        
+        fetch(URL)
+            .then(res => {
+                if (!res.ok) throw new Error("HTTP Status " + res.status);
+                return res.text();
+            })
+            .then(data => {
+                try {
+                    const startIdx = data.indexOf("{");
+                    const endIdx = data.lastIndexOf("}") + 1;
+                    const rawJson = data.substring(startIdx, endIdx);
+                    const json = JSON.parse(rawJson);
+                    const rows = json.table.rows;
+
+                    if (!rows || rows.length === 0) {
+                        grid.innerHTML = `<div class="no-results">> DATABASE KOSONG // TIDAK ADA DATA TERDETEKSI</div>`;
+                        return;
+                    }
+
+                    // Memetakan 3 Kolom Spreadsheet:
+                    // [A] = Nama Asset, [B] = Kategori Asset, [C] = Jumlah Asset
+                    currentAssets = rows.map((row, index) => {
+                        if (index === -1) return null; // Melewati baris judul/header
+                        if (!row.c) return null; 
+                        
+                        return {
+                            name: row.c[0] && row.c[0].v ? row.c[0].v : "UNNAMED ASSET",
+                            category: row.c[1] && row.c[1].v ? row.c[1].v : "UNCATEGORIZED",
+                            quantity: row.c[2] && row.c[2].v ? row.c[2].v : "0"
+                        };
+                    }).filter(item => item !== null);
+
+                    displayAssets(currentAssets);
+                } catch (jsonError) {
+                    console.error(jsonError);
+                    grid.innerHTML = `
+                        <div class="no-results" style="color: var(--accent-red); border-color: var(--accent-red); text-align: left;">
+                            > AMBIL DATA GAGAL // PARSING ERROR<br><br>
+                            > PETUNJUK AKSES:<br>
+                            1. Pastikan Google Sheets di-share ke publik: **"Siapa saja yang memiliki link dapat melihat"**.<br>
+                            2. Pastikan urutan urutan kolom data Anda sama persis:<br>
+                               &nbsp;&nbsp;&nbsp;[A] Nama Asset | [B] Kategori Asset | [C] Jumlah Asset
+                        </div>`;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                grid.innerHTML = `
+                    <div class="no-results" style="color: var(--accent-red); border-color: var(--accent-red); text-align: left;">
+                        > KONEKSI TERPUTUS // UPLINK FAILED<br><br>
+                        Periksa kembali isi **SPREADSHEET_ID** di dalam kode.
+                    </div>`;
+            });
+    }
+
+    function displayAssets(items) {
+        const grid = document.getElementById("assetGrid");
+        grid.innerHTML = "";
+
+        if (items.length === 0) {
+            grid.innerHTML = `<div class="no-results">> NO ASSETS MATCHING SEARCH PROTOCOLS</div>`;
+            return;
+        }
+
+        items.forEach(item => {
+            const card = `
+                <div class="item-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <div>
+                        <div class="category-tag">${item.category}</div>
+                        <h5 class="item-title">${item.name}</h5>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-quantity"><span class="qty-label">QTY:</span>${item.quantity}</span>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    }
+
+    function filterAssets() {
+        const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+
+        const filtered = currentAssets.filter(item => {
+            return item.name.toLowerCase().includes(searchQuery) || 
+                   item.category.toLowerCase().includes(searchQuery);
+        });
+
+        displayAssets(filtered);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", filterAssets);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchLiveAssets();
+    });
+</script>
+<script>
+        if (localStorage.getItem("brc_clearance") !== "GRANTED") {
+            window.location.href = "login.html"; // Tendang ke halaman login
+        }
+    </script>
+</body>
+</html>

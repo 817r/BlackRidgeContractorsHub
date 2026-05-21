@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE UPLINK // CLEARANCE REQUIRED</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #050604;
+        }
+
+        .login-panel {
+            background: rgba(10, 13, 9, 0.9);
+            border: 1px solid var(--tactical-green);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(107, 142, 35, 0.2);
+        }
+
+        .login-logo {
+            font-family: 'Teko', sans-serif;
+            font-size: 3em;
+            color: #fff;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .login-subtitle {
+            color: var(--tactical-green);
+            font-size: 0.9em;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .passcode-input {
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--tactical-light);
+            font-family: 'Share Tech Mono', monospace;
+            padding: 15px;
+            font-size: 1.5em;
+            text-align: center;
+            width: 80%;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .passcode-input:focus {
+            outline: none;
+            border-color: var(--tactical-green);
+            box-shadow: 0 0 10px rgba(154, 205, 50, 0.3) inset;
+        }
+
+        .login-btn {
+            background: transparent;
+            color: var(--tactical-light);
+            border: 1px solid var(--tactical-green);
+            padding: 12px 30px;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .login-btn:hover {
+            background: var(--tactical-green);
+            color: #000;
+        }
+
+        #errorMessage {
+            color: #ff4444;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+            animation: blink 0.5s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<div class="login-panel">
+    <div class="hud-corners top-left"></div>
+    <div class="hud-corners bottom-right"></div>
+    
+    <div class="login-logo">BLACK RIDGE NETWORK</div>
+    <div class="login-subtitle">>>> TACTICAL UPLINK // AUTHORIZATION REQUIRED</div>
+
+    <input type="password" id="passcodeInput" class="passcode-input" placeholder="ENTER CLEARANCE" autocomplete="off" onkeypress="handleEnter(event)">
+    <br>
+    <button class="login-btn" onclick="verifyAccess()">INITIALIZE CONNECTION >></button>
+
+    <div id="errorMessage">> ACCESS DENIED // INVALID AUTHORIZATION CODE</div>
+</div>
+
+<script>
+    // Daftar Kode Akses yang diizinkan (Anda bisa menambahkannya sendiri)
+    const validCodes = [
+        "BRC-2026",       // Kode Umum
+        "VANGUARD-1",     // Kode Divisi 1
+        "SPECTRE-9",      // Kode Divisi 3
+        "ADMIN-OVERRIDE"  // Kode GM
+    ];
+
+    function verifyAccess() {
+        const inputStr = document.getElementById("passcodeInput").value.toUpperCase();
+        const errorMsg = document.getElementById("errorMessage");
+
+        if (validCodes.includes(inputStr)) {
+            // Jika benar, simpan token otorisasi di browser
+            localStorage.setItem("brc_clearance", "GRANTED");
+            localStorage.setItem("brc_operator", inputStr); // Menyimpan siapa yang login
+            
+            // Efek UI sebelum masuk
+            errorMsg.style.color = "#00ff00";
+            errorMsg.innerText = "> CLEARANCE ACCEPTED // REROUTING...";
+            errorMsg.style.display = "block";
+            
+            // Pindah ke halaman utama setelah 1 detik
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1000);
+        } else {
+            // Jika salah
+            errorMsg.style.color = "#ff4444";
+            errorMsg.innerText = "> ACCESS DENIED // INVALID AUTHORIZATION CODE";
+            errorMsg.style.display = "block";
+            document.getElementById("passcodeInput").value = "";
+        }
+    }
+
+    // Biar bisa tekan tombol Enter di keyboard
+    function handleEnter(e) {
+        if (e.key === "Enter") {
+            verifyAccess();
+        }
+    }
+</script>
+
+</body>
+</html>

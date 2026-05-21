@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struktur Unit | SECURE NETWORK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+    <div class="system-status">
+        <span class="pulse"></span> DATABASE ACCESS // CLEARANCE: APPROVED
+    </div>
+    <h1 class="glitch">UNIT STRUCTURE & CAPABILITIES</h1>
+    <div class="subtitle">>>> DEPLOYMENT PROTOCOLS_</div>
+</header>
+
+<nav>
+    <a href="index.html">[ BERANDA ]</a>
+    <a href="divisi.html">[ DIVISI_OPERASI ]</a>
+    <a href="ekonomi.html">[ SITUASI_EKONOMI ]</a>
+    <a href="market.html">[ ARSENAL_MARKET ]</a>
+    <a href="mission.html">[ MISSION_BOARD ]</a>
+    <a href="#" onclick="logoutProtocol()" style="color: #ff4444;">[ DISCONNECT ]</a>
+</nav>
+
+<script>
+    function logoutProtocol() {
+        localStorage.removeItem("brc_clearance");
+        localStorage.removeItem("brc_operator");
+        window.location.href = "login.html";
+    }
+</script>
+
+<div class="command-panel">
+        <div class="command-header">/// 02. OPERATIONAL COMMAND</div>
+        <p class="panel-desc">Divisi utama tempur dan deployment.</p>
+        
+        <div class="command-body">
+            
+            <div class="group-title">[ GROUND OPERATIONS GROUP ]</div>
+            
+            <div class="operational-grid">
+                <div class="tactical-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>1ST SECURITY BATTALION</h5>
+                    <p class="unit-desc">Kontrak keamanan, convoy, guard duty.</p>
+                    <hr class="card-line">
+                    
+                    <div class="company-box">
+                        <h6>ALPHA COMPANY</h6>
+                        <ul>
+                            <li>• 1st Platoon</li>
+                            <li>• 2nd Platoon</li>
+                            <li>• Weapons Squad</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="company-box">
+                        <h6>BRAVO COMPANY</h6>
+                        <ul>
+                            <li>• QRF Platoon</li>
+                            <li>• Convoy Security Platoon</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tactical-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>2ND EXPEDITIONARY BATTALION</h5>
+                    <p class="unit-desc">Operasi ofensif dan combat deployment.</p>
+                    <hr class="card-line">
+                    
+                    <div class="company-box">
+                        <h6>RECON COMPANY</h6>
+                        <ul>
+                            <li>• Scout Team</li>
+                            <li>• Sniper Section</li>
+                            <li>• Drone Recon Team</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="company-box">
+                        <h6>ASSAULT COMPANY</h6>
+                        <ul>
+                            <li>• Breacher Team</li>
+                            <li>• Direct Action Team</li>
+                            <li>• Heavy Weapons Team</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group-title" style="margin-top: 40px;">[ SPECIAL ACTIVITIES GROUP (SAG) ]</div>
+            
+            <div class="operational-grid">
+                <div class="tactical-card elite-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>CORE TASKS</h5>
+                    <p class="unit-desc">Tier elite unit mission profiles.</p>
+                    <hr class="card-line">
+                    <ul class="task-list">
+                        <li>> HVT Capture</li>
+                        <li>> Black Operations</li>
+                        <li>> Covert Recon</li>
+                        <li>> Counter-Terrorism</li>
+                        <li>> Maritime Boarding</li>
+                    </ul>
+                </div>
+
+                <div class="tactical-card elite-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <h5>INTERNAL STRUCTURE</h5>
+                    <p class="unit-desc">Specialized tier-1 deployment teams.</p>
+                    <hr class="card-line">
+                    <ul class="elite-team-list">
+                        <li class="red-team">>> RED TEAM</li>
+                        <li class="ghost-team">>> GHOST TEAM</li>
+                        <li class="specter-team">>> SPECTER TEAM</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        if (localStorage.getItem("brc_clearance") !== "GRANTED") {
+            window.location.href = "login.html"; // Tendang ke halaman login
+        }
+    </script>
+</body>
+</html>

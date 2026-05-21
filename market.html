@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quartermaster Market | SECURE NETWORK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Gaya tambahan khusus halaman Market & Interaktivitas Database */
+        .market-controls {
+            background: var(--panel-dark);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input, .filter-select {
+            background: #0d110a;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 12px 15px;
+            font-size: 1em;
+            border-radius: 3px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--tactical-light);
+            box-shadow: 0 0 5px rgba(154, 205, 50, 0.3);
+        }
+
+        .filter-select {
+            cursor: pointer;
+            max-width: 250px;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: rgba(15, 20, 13, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-card:hover {
+            border-color: var(--tactical-light);
+            box-shadow: 0 0 12px rgba(154, 205, 50, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .item-category {
+            font-size: 0.75em;
+            background: #222b1a;
+            color: var(--tactical-light);
+            padding: 2px 8px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            border-left: 2px solid var(--tactical-green);
+        }
+
+        .item-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.8em;
+            color: #fff;
+            margin: 0 0 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .item-spec {
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: auto;
+        }
+
+        .item-price {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.6em;
+            color: var(--tactical-light);
+        }
+
+        .item-status {
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .status-available { color: #00ff00; }
+        .status-low { color: #ffaa00; }
+        .status-allocated { color: #ff4444; }
+
+        .database-notice {
+            background: rgba(107, 142, 35, 0.05);
+            border-left: 3px solid var(--tactical-green);
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: var(--panel-dark);
+            border: 1px dashed var(--border-color);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+    <div class="system-status">
+        <span class="pulse"></span> QUARTERMASTER CORE // SECURE SUPPLY NETWORK
+    </div>
+    <h1 class="glitch">ARSENAL & MARKETPLACE</h1>
+    <div class="subtitle">>>> WEAPONRY, LOGISTICS & EQUIPMENT INVENTORY_</div>
+</header>
+
+<nav>
+    <a href="index.html">[ BERANDA ]</a>
+    <a href="divisi.html">[ DIVISI_OPERASI ]</a>
+    <a href="ekonomi.html">[ SITUASI_EKONOMI ]</a>
+    <a href="market.html">[ ARSENAL_MARKET ]</a>
+    <a href="mission.html">[ MISSION_BOARD ]</a>
+    <a href="#" onclick="logoutProtocol()" style="color: #ff4444;">[ DISCONNECT ]</a>
+</nav>
+
+<script>
+    function logoutProtocol() {
+        localStorage.removeItem("brc_clearance");
+        localStorage.removeItem("brc_operator");
+        window.location.href = "login.html";
+    }
+</script>
+
+<div class="container">
+    <div class="section-title">> ACCESSING INVENTORY LOGS... INTEGRATED WITH LIVE DATABASE</div>
+
+    <!-- Sistem Kontrol Pencarian & Filter -->
+    <div class="market-controls">
+        <div class="hud-corners top-left"></div>
+        <div class="hud-corners bottom-right"></div>
+        
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari aset (Contoh: HK416, Armor, Drone)...">
+        
+        <select id="categoryFilter" class="filter-select">
+            <option value="ALL">ALL</option>
+            <option value="WEAPON">WEAPON</option>
+            <option value="ARMOR">ARMOR</option>
+            <option value="AMMUNITION">AMMUNITION</option>
+            <option value="VEHICLE">VEHICLE</option>
+            <option value="LOGISTIC">LOGISTIC</option>
+            <option value="MEDICAL">MEDICAL</option>
+            <option value="FORTIFICATION">FORTIFICATION</option>
+        </select>
+    </div>
+
+    <!-- Grid Tempat Item Ditampilkan -->
+    <div id="marketGrid" class="market-grid">
+        <!-- Item akan dimuat di sini secara otomatis oleh JavaScript -->
+    </div>
+</div>
+
+<script>
+
+    // Fungsi Logika Filter dan Search
+    function filterDatabase() {
+        const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+        const selectedCategory = document.getElementById("categoryFilter").value;
+
+        const filtered = mockInventoryDatabase.filter(item => {
+            const matchesSearch = item.name.toLowerCase().includes(searchQuery) || item.spec.toLowerCase().includes(searchQuery);
+            const matchesCategory = selectedCategory === "ALL" || item.category === selectedCategory;
+            return matchesSearch && matchesCategory;
+        });
+
+        displayItems(filtered);
+    }
+
+    // Event Listener untuk memantau ketikan pengguna dan pilihan filter
+    document.getElementById("searchInput").addEventListener("input", filterDatabase);
+    document.getElementById("categoryFilter").addEventListener("change", filterDatabase);
+
+// ==========================================================================
+    // CONFIGURATION UPLINK - INTEGRASI LIVE GOOGLE SPREADSHEET
+    // ==========================================================================
+    
+    // 1. GANTI teks di bawah ini dengan ID Spreadsheet Anda yang diambil dari URL
+    const SPREADSHEET_ID = '1PqFoR0FD1Yhn_wnRpv1eyYm80jzSMPxkP5zXy_GTmtE';
+    
+    // 2. Sesuaikan dengan nama tab di Google Sheets Anda (Contoh: Sheet1, atau Data_Arsenal)
+    const SHEET_NAME = 'GarudaDatabase'; 
+    
+    const URL = `https://docs.google.com/spreadsheets/d/1PqFoR0FD1Yhn_wnRpv1eyYm80jzSMPxkP5zXy_GTmtE/gviz/tq?tqx=out:json&sheet=GarudaDatabase`;
+
+let currentInventory = []; 
+
+    function fetchLiveDatabase() {
+        const grid = document.getElementById("marketGrid");
+        grid.innerHTML = `<div class="no-results">> INITIATING SATELLITE UPLINK... PLEASE WAIT.</div>`;
+        
+        fetch(URL)
+            .then(res => {
+                if (!res.ok) throw new Error("Koneksi internet atau URL salah (HTTP Status " + res.status + ")");
+                return res.text();
+            })
+            .then(data => {
+                try {
+                    // Mencari pembungkus JSON Google secara dinamis agar tidak patah/error
+                    const startIdx = data.indexOf("{");
+                    const endIdx = data.lastIndexOf("}") + 1;
+                    
+                    if (startIdx === -1 || endIdx === -1) {
+                        throw new Error("Format data Google Sheets tidak valid. Pastikan file tidak kosong.");
+                    }
+                    
+                    const rawJson = data.substring(startIdx, endIdx);
+                    const json = JSON.parse(rawJson);
+                    const rows = json.table.rows;
+
+                    if (!rows || rows.length === 0) {
+                        grid.innerHTML = `<div class="no-results">> SPREADSHEET KOSONG // TIDAK ADA BARIS DATA</div>`;
+                        return;
+                    }
+
+                    // Memetakan baris data & otomatis melewati (skip) baris pertama jika itu HEADER
+                currentInventory = rows
+                    .filter(row => {
+                        if (!row.c) return false;
+
+                        const itemName = row.c[1]?.v;
+
+                        return itemName &&
+                            itemName !== "Nama Barang" &&
+                            itemName !== "Market";
+                    })
+                    .map(row => {
+                        const cells = row.c;
+
+                        return {
+                            name: cells[1]?.v || "UNNAMED ASSET",
+                            category: cells[2]?.v?.toUpperCase() || "UNCATEGORIZED",
+                            spec: cells[3]?.v || "No specifications provided.",
+
+                            price: typeof cells[4]?.v === "number"
+                                ? '$' + cells[4].v.toLocaleString()
+                                : (cells[4]?.v || "$0"),
+
+                            status: cells[5]?.v?.toUpperCase() || "AVAILABLE"
+                        };
+                    });
+
+                    displayItems(currentInventory);
+                } catch (jsonError) {
+                    console.error("Detail Error:", jsonError);
+                    grid.innerHTML = `
+                        <div class="no-results" style="color: var(--accent-red); border-color: var(--accent-red); text-align: left;">
+                            > AMBIL DATA GAGAL // PARSING ERROR<br><br>
+                            > SOLUSI UTAMA:<br>
+                            1. Buka Google Sheets Anda, klik tombol **Bagikan (Share)** di kanan atas.<br>
+                            2. Ubah Akses Umum menjadi **"Siapa saja yang memiliki link dapat melihat" (Anyone with link can view)**.<br>
+                            3. Jika langkah di atas sudah dilakukan, pastikan isi tabel Anda tidak ada baris kosong di paling atas.<br><br>
+                            > PESAN ERROR: ${jsonError.message}
+                        </div>`;
+                }
+            })
+            .catch(err => {
+                console.error("Network Error:", err);
+                grid.innerHTML = `
+                    <div class="no-results" style="color: var(--accent-red); border-color: var(--accent-red); text-align: left;">
+                        > KONEKSI TERPUTUS // UPLINK FAILED<br><br>
+                        > SOLUSI:<br>
+                        Periksa kembali isi **SPREADSHEET_ID** di dalam kode market.html Anda. Pastikan kodenya sama persis dengan yang ada di URL browser.<br><br>
+                        > PESAN ERROR: ${err.message}
+                    </div>`;
+            });
+    }
+
+    function displayItems(items) {
+        const grid = document.getElementById("marketGrid");
+        grid.innerHTML = "";
+
+        if (items.length === 0) {
+            grid.innerHTML = `<div class="no-results">> NO ASSETS MATCHING SEARCH OR FILTER PROTOCOLS</div>`;
+            return;
+        }
+
+        items.forEach(item => {
+            let statusClass = "status-available";
+            if (item.status === "ALLOCATED" || item.status === "LOW") statusClass = "status-low";
+            if (item.status === "UNAVAILABLE" || item.status === "OUT") statusClass = "status-allocated";
+
+            const card = `
+                <div class="item-card">
+                    <div class="hud-corners top-left"></div>
+                    <div class="hud-corners bottom-right"></div>
+                    <div>
+                        <div class="item-category">${item.category}</div>
+                        <h5 class="item-title">${item.name}</h5>
+                        <p class="item-spec">${item.spec}</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">${item.price}</span>
+                        <span class="item-status ${statusClass}">[ ${item.status} ]</span>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    }
+
+    function filterDatabase() {
+        const searchQuery = document.getElementById("searchInput").value.toLowerCase();
+        const selectedCategory = document.getElementById("categoryFilter").value;
+
+        const filtered = currentInventory.filter(item => {
+            const matchesSearch = item.name.toLowerCase().includes(searchQuery) || item.spec.toLowerCase().includes(searchQuery);
+            const matchesCategory = selectedCategory === "ALL" || item.category === selectedCategory;
+            return matchesSearch && matchesCategory;
+        });
+
+        displayItems(filtered);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", filterDatabase);
+    document.getElementById("categoryFilter").addEventListener("change", filterDatabase);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchLiveDatabase();
+        
+    });
+
+    
+</script>
+<script>
+        if (localStorage.getItem("brc_clearance") !== "GRANTED") {
+            window.location.href = "login.html"; // Tendang ke halaman login
+        }
+    </script>
+</body>
+</html>

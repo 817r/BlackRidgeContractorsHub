@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Board & Deployment | SECURE NETWORK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .mission-card {
+            background: rgba(10, 13, 9, 0.85);
+            border: 1px solid var(--border-color);
+            position: relative;
+            padding: 25px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mission-card:hover {
+            border-color: var(--tactical-light);
+            box-shadow: 0 0 15px rgba(154, 205, 50, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--tactical-green);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .issuer-tag {
+            background: #1a243a;
+            color: #44aaff;
+            padding: 4px 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            border-left: 3px solid #2a65a3;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .vote-badge {
+            background: rgba(107, 142, 35, 0.15);
+            color: var(--tactical-light);
+            border: 1px solid var(--tactical-green);
+            padding: 4px 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .vote-badge span {
+            font-size: 1.4em;
+            font-family: 'Teko', sans-serif;
+            margin-left: 5px;
+        }
+
+        .mission-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 2.2em;
+            color: #fff;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+            letter-spacing: 1px;
+        }
+
+        .mission-desc {
+            color: #bbb;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .mission-details {
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+            background: #0a0d09;
+            padding: 8px 10px;
+            border: 1px solid #1a2215;
+        }
+
+        .detail-label { color: #888; font-size: 0.85em; letter-spacing: 1px; }
+        
+        .value-reward { color: #00ff00; font-weight: bold; font-size: 1.1em; }
+        .value-deploy { color: #fff; font-family: 'Share Tech Mono', monospace; font-weight: bold; }
+        .value-time { color: var(--tactical-light); font-family: 'Share Tech Mono', monospace; font-weight: bold; }
+
+        .countdown {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--accent-red);
+            color: #ff4444;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+
+        .expired {
+            color: #888 !important;
+            border-color: #555 !important;
+            background: transparent !important;
+        }
+
+        .btn-vote {
+            display: block;
+            text-align: center;
+            background: transparent;
+            color: var(--tactical-light);
+            border: 1px solid var(--tactical-green);
+            padding: 12px;
+            margin-top: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-vote:hover {
+            background: var(--tactical-green);
+            color: #000;
+            box-shadow: 0 0 10px var(--tactical-green);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: var(--panel-dark);
+            border: 1px dashed var(--border-color);
+            color: #666;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem("brc_clearance") !== "GRANTED") {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+    <div class="system-status">
+        <span class="pulse"></span> COMMAND HQ // TACTICAL OPERATIONS
+    </div>
+    <h1 class="glitch">DEPLOYMENT MISSION BOARD</h1>
+    <div class="subtitle">>>> ACTIVE CONTRACTS & OPERATOR VOTING_</div>
+</header>
+
+<nav>
+    <a href="index.html">[ BERANDA ]</a>
+    <a href="divisi.html">[ DIVISI_OPERASI ]</a>
+    <a href="ekonomi.html">[ SITUASI_EKONOMI ]</a>
+    <a href="market.html">[ ARSENAL_MARKET ]</a>
+    <a href="mission.html" class="highlight-link">[ MISSION_BOARD ]</a>
+    <a href="#" onclick="logoutProtocol()" style="color: #ff4444;">[ DISCONNECT ]</a>
+</nav>
+
+<div class="container">
+    <div class="section-title">> FETCHING AVAILABLE CONTRACTS...</div>
+
+    <div id="missionGrid" class="mission-grid">
+        <div class="no-results">> INITIATING SATELLITE UPLINK... PLEASE WAIT.</div>
+    </div>
+</div>
+
+<script>
+    function logoutProtocol() {
+        localStorage.removeItem("brc_clearance");
+        localStorage.removeItem("brc_operator");
+        window.location.href = "login.html";
+    }
+
+    // ==========================================================================
+    // CONFIGURATION UPLINK
+    // ==========================================================================
+    
+    // 1. Masukkan ID Spreadsheet Anda
+    const SPREADSHEET_ID = '1PqFoR0FD1Yhn_wnRpv1eyYm80jzSMPxkP5zXy_GTmtE';
+    
+    // 2. Nama tab di Spreadsheet Anda
+    const SHEET_NAME = 'MissionBoard'; 
+    
+    const URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+    function fetchMissions() {
+        const grid = document.getElementById("missionGrid");
+        
+        fetch(URL)
+            .then(res => {
+                if (!res.ok) throw new Error("HTTP Status " + res.status);
+                return res.text();
+            })
+            .then(data => {
+                try {
+                    const startIdx = data.indexOf("{");
+                    const endIdx = data.lastIndexOf("}") + 1;
+                    const rawJson = data.substring(startIdx, endIdx);
+                    const json = JSON.parse(rawJson);
+                    const rows = json.table.rows;
+
+                    grid.innerHTML = "";
+
+                    if (!rows || rows.length === 0) {
+                        grid.innerHTML = `<div class="no-results">> NO ACTIVE CONTRACTS AVAILABLE AT THIS TIME</div>`;
+                        return;
+                    }
+
+                    rows.forEach((row, index) => {
+                        if (index === -1) return; // Skip Header
+                        if (!row.c) return;
+
+                        const name = row.c[0] && row.c[0].v ? row.c[0].v : "UNNAMED CONTRACT";
+                        const desc = row.c[1] && row.c[1].v ? row.c[1].v : "No intel provided.";
+                        const issuer = row.c[2] && row.c[2].v ? row.c[2].v : "CLASSIFIED";
+                        const reward = row.c[3] && row.c[3].v ? row.c[3].v : "TBD";
+                        const votes = row.c[4] && row.c[4].v ? row.c[4].v : "0";
+                        const deployDate = row.c[5] && row.c[5].v ? row.c[5].v : "TBD";
+                        const deployTime = row.c[6] && row.c[6].v ? row.c[6].v : "TBD";
+                        const expectedFinishTime = row.c[7] && row.c[7].v ? row.c[7].v : "0";
+
+                        const card = document.createElement("div");
+                        card.className = "mission-card";
+                        
+                        let htmlContent = `
+                            <div class="hud-corners top-left"></div>
+                            <div class="hud-corners bottom-right"></div>
+                            
+                            <div class="mission-header">
+                                <div class="issuer-tag">PENGAJU: ${issuer}</div>
+                                <div class="vote-badge">ASSIGNED: <span>${votes}</span></div>
+                            </div>
+                            
+                            <h3 class="mission-title">${name}</h3>
+                            <p class="mission-desc">${desc}</p>
+                            
+                            <div class="mission-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">REWARD:</span>
+                                    <span class="value-reward">${reward} $</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">TANGGAL DEPLOYMENT:</span>
+                                    <span class="value-deploy">${deployDate}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">JAM / WAKTU:</span>
+                                    <span class="value-time">${deployTime}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">PERKIRAAN WAKTU SELESAI:</span>
+                                    <span class="value-time">${expectedFinishTime} MENIT</span>
+                                </div>
+                            </div>
+                        `;
+
+                        // Siapkan ID untuk timer
+                        let deadlineStr = "";
+                        if (deployDate !== "TBD" && deployTime !== "TBD") {
+                            deadlineStr = `${deployDate} ${deployTime}`;
+                            htmlContent += `<div class="countdown" id="timer-${index}">CALCULATING TIME...</div>`;
+                        }
+
+                        card.innerHTML = htmlContent;
+                        grid.appendChild(card);
+
+                        // Jalankan fungsi timer setelah elemen dimuat ke HTML
+                        if (deadlineStr) {
+                            startTimer(`timer-${index}`, deadlineStr);
+                        }
+                    });
+                } catch (jsonError) {
+                    console.error(jsonError);
+                    grid.innerHTML = `<div class="no-results" style="color:red;">> DATA CORRUPTED // CHECK SPREADSHEET FORMAT</div>`;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                grid.innerHTML = `<div class="no-results" style="color:red;">> UPLINK FAILED // CANNOT RETRIEVE CONTRACT DATA</div>`;
+            });
+    }
+
+function startTimer(elementId, deadlineStr) {
+        const deploymentDate = new Date(deadlineStr).getTime();
+        // H-7 dalam milidetik (7 hari * 24 jam * 60 menit * 60 detik * 1000)
+        const votingClosingTime = deploymentDate - (0 * 24 * 60 * 60 * 1000);
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const timeToDeployment = deploymentDate - now;
+            const timeToVotingClose = votingClosingTime - now;
+
+            const element = document.getElementById(elementId);
+            if (!element) {
+                clearInterval(x);
+                return;
+            }
+
+            if (isNaN(deploymentDate)) {
+                clearInterval(x);
+                element.innerHTML = "FORMAT TANGGAL TIDAK VALID";
+                element.classList.add("expired");
+                return;
+            }
+
+            // Kondisi: Jika sudah melewati H-4 (Voting Close)
+            if (timeToVotingClose < 0) {
+                element.innerHTML = "VOTING CLOSED // PRE-DEPLOYMENT PHASE";
+                element.classList.add("expired");
+                
+                // Jika sudah waktunya deployment
+                if (timeToDeployment < 0) {
+                    clearInterval(x);
+                    element.innerHTML = "DEPLOYMENT IN PROGRESS // GO!";
+                }
+            } else {
+                // Jika masih dalam masa voting
+                const days = Math.floor(timeToVotingClose / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeToVotingClose % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeToVotingClose % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeToVotingClose % (1000 * 60)) / 1000);
+
+                element.innerHTML = `DEPLOYMENT IN: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchMissions);
+</script>
+
+</body>
+</html>

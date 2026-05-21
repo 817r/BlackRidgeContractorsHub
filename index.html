@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Ridge Contractors | SECURE NETWORK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+    <div class="system-status">
+        <span class="pulse"></span> UPLINK SECURE // CLEARANCE LEVEL: ALPHA
+    </div>
+    <h1 class="glitch" data-text="BLACK RIDGE CONTRACTORS">BLACK RIDGE CONTRACTORS</h1>
+    <div class="subtitle">>>> UNIVERSAL RESPONSE FORCE_</div>
+</header>
+
+<nav>
+    <a href="index.html">[ BERANDA ]</a>
+    <a href="divisi.html">[ DIVISI_OPERASI ]</a>
+    <a href="ekonomi.html">[ SITUASI_EKONOMI ]</a>
+    <a href="market.html">[ ARSENAL_MARKET ]</a>
+    <a href="mission.html">[ MISSION_BOARD ]</a>
+    <a href="#" onclick="logoutProtocol()" style="color: #ff4444;">[ DISCONNECT ]</a>
+</nav>
+
+<script>
+    function logoutProtocol() {
+        localStorage.removeItem("brc_clearance");
+        localStorage.removeItem("brc_operator");
+        window.location.href = "login.html";
+    }
+</script>
+
+<div class="container">
+    <section class="hero-tactical">
+        <div class="hud-corners top-left"></div>
+        <div class="hud-corners top-right"></div>
+        <div class="hud-corners bottom-left"></div>
+        <div class="hud-corners bottom-right"></div>
+        
+        <h2>TACTICAL SUPERIORITY.<br><span class="text-accent">ANYWHERE. ANYTIME.</span></h2>
+        
+        <div class="terminal-box">
+            <p>> SYSTEM CHECK... OK</p>
+            <p>> DOCTRINE: ALL-ROUNDER PMC</p>
+            <p>> STATUS: ADAPTIVE. VERSATILE. LETHAL.</p>
+            <hr class="tactical-line">
+            <p>Kami tidak menyesuaikan diri dengan misi; kami memaksa lingkungan untuk beradaptasi dengan kami. Transisi <strong>"Zero-Gap"</strong> kami pastikan berjalan mulus melintasi labirin urban yang padat hingga operasi di hutan belantara. Kesuksesan kontrak tidak dibatasi oleh topografi.</p>
+        </div>
+
+        <a href="#rekrutmen" class="btn-tactical">INITIATE RECRUITMENT PROTOCOL <span class="arrow">>></span></a>
+    </section>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <h3 class="counter">100%</h3>
+            <p>MISSION SUCCESS RATE</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🌍</div>
+            <h3>01</h3>
+            <p>ACTIVE CONTINENTS</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 70%;"></div></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <h3 class="counter">0/0</h3>
+            <p>DEPLOYMENT RATE</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+        </div>
+    </div>
+</div>
+<script>
+        if (localStorage.getItem("brc_clearance") !== "GRANTED") {
+            window.location.href = "login.html"; // Tendang ke halaman login
+        }
+    </script>
+</body>
+</html>
